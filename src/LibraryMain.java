@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.io.FileWriter;
+import java.util.concurrent.TimeUnit;
 import java.io.IOException;
 
 public class LibraryMain {
@@ -11,10 +12,11 @@ public class LibraryMain {
     private static final String[] areas = new String[MAX_BOOKS];
     private static int actualBookNumber = 0;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
 
         while (true) {
+            TimeUnit.MILLISECONDS.sleep(1500);
             buildMenu();
             int option = scan.nextInt();
 
@@ -43,9 +45,10 @@ public class LibraryMain {
         System.out.print("Digite: ");
     }
 
-    private static void addBook(Scanner scan) {
+    private static void addBook(Scanner scan) throws InterruptedException {
         if (actualBookNumber >= MAX_BOOKS) {
-            System.out.println("A biblioteca está cheia, exclua algum livro e tente novamente!");
+            System.out.println("\nA biblioteca está cheia, exclua algum livro e tente novamente!");
+            TimeUnit.MILLISECONDS.sleep(1500);
             return;
         }
 
@@ -69,10 +72,11 @@ public class LibraryMain {
         areas[actualBookNumber] = area;
         actualBookNumber++;
 
-        System.out.println("Livro adicionado com sucesso!");
+        System.out.println("\nLivro adicionado com sucesso!");
+        TimeUnit.MILLISECONDS.sleep(1500);
     }
 
-    private static void removeBook(Scanner scan) {
+    private static void removeBook(Scanner scan) throws InterruptedException {
         System.out.print("Digite o título do livro a ser removido: ");
         String title = scan.nextLine();
 
@@ -97,10 +101,11 @@ public class LibraryMain {
         }
         actualBookNumber--;
 
-        System.out.println("Livro removido com sucesso!");
+        System.out.println("\nLivro removido com sucesso!");
+        TimeUnit.MILLISECONDS.sleep(1500);
     }
 
-    private static void searchBook(Scanner scan) {
+    private static void searchBook(Scanner scan) throws InterruptedException {
         buildSearchMenu();
         int option = scan.nextInt();
         scan.nextLine();
@@ -133,7 +138,7 @@ public class LibraryMain {
         System.out.print("Digite a opção de busca: ");
     }
 
-    private static void findBook(String term, String type) {
+    private static void findBook(String term, String type) throws InterruptedException {
         String[] param = switch (type) {
             case "title" -> titles;
             case "author" -> authors;
@@ -148,23 +153,19 @@ public class LibraryMain {
             }
         }
         if (!found) {
-            System.out.println("Livro não encontrado!");
+            System.out.println("\nLivro não encontrado!");
         }
+        TimeUnit.MILLISECONDS.sleep(1500);
     }
 
     public static void generateBookReport() {
-        System.out.println("\n----- Relatório da Biblioteca -----");
-        for (int i = 0; i < actualBookNumber; i++) {
-            System.out.printf("%s, %d páginas, %s, %s\n", titles[i], pages[i], authors[i], areas[i]);
-        }
-        System.out.printf("\nTotal de livros: %d\n", actualBookNumber);
         try {
             FileWriter csvWriter = new FileWriter("books.csv");
-            csvWriter.append("\n----- Relatório da Biblioteca -----\n");
+            csvWriter.append("nome_do_livro,numero_de_paginas,nome_do_autor,area_de_interesse\n");
 
             for (int i = 0; i < actualBookNumber; i++) {
                 csvWriter.append(titles[i]).append(",");
-                csvWriter.append(String.valueOf(pages[i])).append(" páginas,");
+                csvWriter.append(String.valueOf(pages[i])).append(",");
                 csvWriter.append(authors[i]).append(",");
                 csvWriter.append(areas[i]).append("\n");
             }
