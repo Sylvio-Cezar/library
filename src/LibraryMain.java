@@ -148,14 +148,19 @@ public class LibraryMain {
         boolean found = false;
         for (int i = 0; i < actualBookNumber; i++) {
             if (param[i].equalsIgnoreCase(term)) {
-                System.out.printf("\n%s, %d páginas, %s, %s\n", titles[i], pages[i], authors[i], areas[i]);
+                System.out.println("\nTítulo: " + titles[i]);
+                System.out.println("Número de páginas: " + pages[i]);
+                System.out.println("Autor: " + authors[i]);
+                System.out.println("Área: " + areas[i]);
                 found = true;
             }
         }
         if (!found) {
             System.out.println("\nLivro não encontrado!");
+            TimeUnit.MILLISECONDS.sleep(1500);
+        } else {
+            TimeUnit.MILLISECONDS.sleep(3000);
         }
-        TimeUnit.MILLISECONDS.sleep(1500);
     }
 
     public static void generateBookReport() {
